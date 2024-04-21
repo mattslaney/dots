@@ -9,14 +9,22 @@ lsp_zero.on_attach(function(client, bufnr)
     lsp_zero.default_keymaps({buffer = bufnr})
 end)
 
-require('mason').setup({})
-require('mason-lspconfig').setup({
-    -- ensure_installed = {'', '', ''}
-    handlers = {
-        lsp_zero.default_setup,
-    },
-    rust_analyzer = lsp_zero.noop,
-})
+local mason_exists, mason = pcall(require, 'mason')
+if mason_exists then
+    require('mason').setup({})
+    require('mason-lspconfig').setup({
+        ensure_installed = {'lua_ls', 'clangd'},
+        handlers = {
+            function(server_name)
+                require('lspconfig')[server_name].setup({})
+            end,
+        },
+        rust_analyzer = lsp_zero.noop,
+    })
+else
+    print("Not loading mason")
+    require('lspconfig').clangd.setup({})
+end
 
 vim.g.rustaceanvim = {
     server = {

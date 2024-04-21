@@ -1,3 +1,7 @@
+function is_nix()
+    return true
+end
+
 --[[
 -- Plugins available across all instances of neovim
 --]]
@@ -69,8 +73,18 @@ local plugins = {
 
     -- GENERAL LANGUAGE SUPPORT
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    {'williamboman/mason.nvim'},
-    {'williamboman/mason-lspconfig.nvim'},
+    {
+        'williamboman/mason.nvim',
+        cond = function()
+            return not is_nix()
+        end
+    },
+    {
+        'williamboman/mason-lspconfig.nvim',
+        cond = function()
+            return not is_nix()
+        end
+    },
     {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v3.x',
