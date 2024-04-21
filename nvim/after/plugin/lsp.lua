@@ -11,10 +11,18 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
+    -- ensure_installed = {'', '', ''}
     handlers = {
         lsp_zero.default_setup,
     },
+    rust_analyzer = lsp_zero.noop,
 })
+
+vim.g.rustaceanvim = {
+    server = {
+        capabilities = require('lsp-zero').get_capabilities()
+    },
+}
 
 ---
 -- Autocompletion config

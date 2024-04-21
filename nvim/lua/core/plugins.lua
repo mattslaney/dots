@@ -2,13 +2,24 @@
 -- Plugins available across all instances of neovim
 --]]
 local plugins = {
-    -- LUALINE - https://github.com/nvim-lualine/lualine.nvim
+
+    -- GENERAL
+    -- -- Adding a nice status bar with lots of info
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
-
-    -- KANAGAWA THEME - https://github.com/rebelot/kanagawa.nvim
+    -- -- Adding a useful box to help find the right keys
+    {
+        'folke/which-key.nvim',
+        event = "VeryLazy",
+        init = function()
+            vim.o.timeout = true
+            vim.o.timeoutlen = 300
+        end,
+        opts = {}
+    },
+    -- -- A nice theme
     {
         "rebelot/kanagawa.nvim",
         name = 'kanagawa',
@@ -20,7 +31,8 @@ local plugins = {
         end
     },
 
-    -- NVIM-TREE - https://github.com/nvim-tree/nvim-tree.lua
+    -- NAVIGATION
+    -- -- A useful file tree
     {
         "nvim-tree/nvim-tree.lua",
         version = "*",
@@ -33,39 +45,32 @@ local plugins = {
             require("nvim-tree").setup {}
         end,
     },
-
-    -- TELESCOPE - https://github.com/nvim-telescope/telescope.nvim
+    -- A nice fuzzy finder
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.4',
         -- or                              , branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
-
-    -- UNDOTREE - https://github.com/mbbill/undotree
-    { 'mbbill/undotree' },
-    
-    -- FUGITIVE - https://github.com/tpope/vim-fugitive
-    { 'tpope/vim-fugitive' },
-
-    -- WHICH-KEY - https://github.com/folke/which-key.nvim
+    -- A handy file switcher
     {
-        'folke/which-key.nvim',
-        event = "VeryLazy",
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
-        end,
-        opts = {}
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" }
     },
 
-    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    -- EDITING
+    { 'mbbill/undotree' },
+    
+    -- GIT
+    { 'tpope/vim-fugitive' },
+    { 'airblade/vim-gitgutter' },
 
-    -- MASON - https://github.com/williamboman/mason.nvim
+
+    -- GENERAL LANGUAGE SUPPORT
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     {'williamboman/mason.nvim'},
     {'williamboman/mason-lspconfig.nvim'},
-
-    -- LSP-ZERO - https://github.com/VonHeikemen/lsp-zero.nvim
     {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v3.x',
@@ -78,12 +83,28 @@ local plugins = {
             {'hrsh7th/cmp-nvim-lsp'},
         }
     },
-    -- Autocompletion
     {
         'hrsh7th/nvim-cmp',
         dependencies = {
             {'L3MON4D3/LuaSnip'}
         },
+    },
+
+    -- SPECIFIC LANGUAGE SUPPORT
+    {
+        'mrcjkb/rustaceanvim',
+        dependencies = {
+            'VonHeikemen/lsp-zero.nvim'
+        },
+        version = '^4', -- Recommended
+        lazy = false, -- This plugin is already lazy
+--        init = function()
+--        vim.g.rustaceanvim = {
+--            server = {
+--                capabilities = require('lsp-zero').get_capabilities()
+--            },
+--        }
+--        end,
     },
 }
 

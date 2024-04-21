@@ -37,6 +37,15 @@ set visualbell
 "" VISUAL SETTINGS
 "" ---------------
 
+" Added so colours work well with alacritty, tmux and vim
+if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+syntax on
+set termguicolors
+
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
    set t_Co=256
